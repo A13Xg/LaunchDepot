@@ -10,8 +10,8 @@ A13Xg Industries
 #region GLOBAL-VARIABLES
 $RunningDir = (Get-Location).Path
 $UseVerification = $True
-$LogLocation = "C:\Windows\Logs\A13Xg\initMain.log"
-$Date = TimeStamp
+$LogLocation = "C:\Windows\Logs\A13Xg\maint.log"
+$Date = Get-Date -Format "MM/dd/yyyy-HH:mm"
 #endregion GLOBAL-VARIABLES
 
 #region FUNCTIONS
@@ -24,15 +24,13 @@ function Write-CmdLine {
    # Colors "Black","Blue","Cyan","DarkBlue","DarkCyan","DarkGray","DarkGreen","DarkMagenta","DarkRed","DarkYellow","Gray","Green","Magenta","Red","White","Yellow"
    Write-Host $Message -ForegroundColor $FColor -BackgroundColor $BColor
 }
-function TimeStamp {
-    Get-Date -Format "MM/dd/yyyy-HH:mm"
-}
 function Loginator {
     param (
         [STRING] $Message,
         [STRING] $Path = $LogLocation
     )
-    $Date = (TimeStamp)
+    mkdir -Path "C:\Windows\Logs\A13Xg\"
+    $Date = Get-Date -Format "MM/dd/yyyy-HH:mm"
     "[$Date] ~   $Message" | Out-File -FilePath $Path -Append
 }
 
@@ -68,3 +66,8 @@ function schedRestart {
     shutdown -r -t $time
 }
 #endRegion FUNCTIONS
+
+Loginator -Message "Script Started (maint.ps1)"
+RunDISM
+RunSFC
+RunDefrag

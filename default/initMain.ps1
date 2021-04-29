@@ -72,9 +72,10 @@ function TimeStamp {
 function Loginator {
     param (
         [STRING] $Message,
-        [STRING] $Path
+        [STRING] $Path = $LogLocation
     )
-    $Date = (TimeStamp)
+    mkdir -Path "C:\Windows\Logs\A13Xg\"
+    $Date = Get-Date -Format "MM/dd/yyyy-HH:mm"
     "[$Date] ~   $Message" | Out-File -FilePath $Path -Append
 }
 
@@ -91,5 +92,9 @@ function UpdateRepo {
 }
 #endregion FUNCTIONS
 
+Loginator -Message "Starting repo update..."
 UpdateRepo -filePath "C:\service\A13Xg\repo\" -fileName "initMain.ps1" -url "https://raw.githubusercontent.com/A13Xg/LaunchDepot/main/default/initMain.ps1"
 UpdateRepo -filePath "C:\service\A13Xg\repo\" -fileName "maint.ps1" -url "https://raw.githubusercontent.com/A13Xg/LaunchDepot/main/default/maint.ps1"
+Loginator -Message "Repo Update Complete!"
+Exit
+Exit-PSSession
