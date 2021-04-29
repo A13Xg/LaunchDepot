@@ -96,5 +96,8 @@ Loginator -Message "Starting repo update..."
 UpdateRepo -filePath "C:\service\A13Xg\repo\" -fileName "initMain.ps1" -url "https://raw.githubusercontent.com/A13Xg/LaunchDepot/main/default/initMain.ps1"
 UpdateRepo -filePath "C:\service\A13Xg\repo\" -fileName "maint.ps1" -url "https://raw.githubusercontent.com/A13Xg/LaunchDepot/main/default/maint.ps1"
 Loginator -Message "Repo Update Complete!"
+
+    #// Put any other things to run here
+
 Exit
 Exit-PSSession
