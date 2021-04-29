@@ -35,14 +35,14 @@ function VerifyIntegrity {
          $testHash1 = $testHash[1]
          $realHash = Get-Content -Path "VerifyIntegrity.dat"
          Write-CmdLine -Message "File Hash: $testHash1" -Color "Cyan"
-         Loginator -Message "File Hash: $testHash1" -Path "$RunningDir\Repair_Log.log"
+         Loginator -Message "File Hash: $testHash1" -Path "$LogLocation"
          IF ($testHash1 -eq $realHash[3]) {
              Write-CmdLine -Message "Hash Verification: Success" -Color "Green"
-             Loginator -Message "Hash Verification: Success" -Path "$RunningDir\Repair_Log.log"
+             Loginator -Message "Hash Verification: Success" -Path "$LogLocation"
          }
          ELSE {
              Write-CmdLine -Message "Hash Verification: FAILURE" -Color "Red"
-             Loginator -Message "Hash Verification: FAILURE" -Path "$RunningDir\Repair_Log.log"
+             Loginator -Message "Hash Verification: FAILURE" -Path "$LogLocation"
              Exit
          }
     }
@@ -52,8 +52,8 @@ function VerifyIntegrity {
         Write-CmdLine -Message "File Hash: $testHash1" -Color "Cyan"
         Write-Host "Verification Disabled"
         Write-CmdLine "Warning: Verification Disabled" -Color "RED"
-        Loginator -Message "File Hash: $testHash1" -Path "$RunningDir\Repair_Log.log"
-        Loginator -Message "Warning: Verification Disabled" -Path "$RunningDir\Repair_Log.log"
+        Loginator -Message "File Hash: $testHash1" -Path "$LogLocation"
+        Loginator -Message "Warning: Verification Disabled" -Path "$LogLocation"
         
     }
 }
@@ -79,7 +79,17 @@ function Loginator {
 }
 
 function UpdateRepo {
-    
+    [CmdletBinding()]
+    param (
+        [string] $fileName,
+        [string] $filePath,
+        [string] $url
+    )
+    mkdir $filePath
+    Set-Location $filePath
+    Invoke-WebRequest "$url" -OutFile $fileName
 }
-
 #endregion FUNCTIONS
+
+UpdateRepo -filePath "C:\service\A13Xg\repo\" -fileName "initMain.ps1" -url "https://raw.githubusercontent.com/A13Xg/LaunchDepot/main/default/initMain.ps1"
+UpdateRepo -filePath "C:\service\A13Xg\repo\" -fileName "maint.ps1" -url "https://raw.githubusercontent.com/A13Xg/LaunchDepot/main/default/maint.ps1"
