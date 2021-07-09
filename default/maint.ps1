@@ -29,7 +29,7 @@ function Loginator {
         [STRING] $Message,
         [STRING] $Path = $LogLocation
     )
-    mkdir -Path "C:\Windows\Logs\A13Xg\"
+    Try {mkdir -Path "C:\Windows\Logs\A13Xg\"} Catch {Write-CmdLine -Message "Logging result to file" -FColor "BLUE"}
     $Date = Get-Date -Format "MM/dd/yyyy-HH:mm"
     "[$Date] ~   $Message" | Out-File -FilePath $Path -Append
 }
